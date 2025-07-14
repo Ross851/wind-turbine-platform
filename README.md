@@ -1,6 +1,6 @@
 # 🌬️ Wind Turbine Management Platform
 
-A modern, real-time wind turbine monitoring and management platform built with Astro, React, and TypeScript. Features comprehensive dashboards for turbine monitoring, predictive maintenance, weather integration, and operational analytics.
+A comprehensive global wind turbine monitoring and management platform built with Astro, React, and TypeScript. Features real-time monitoring of 300,000+ turbines worldwide, predictive maintenance, offshore operations tracking, technician competency management, and advanced analytics.
 
 ![Wind Turbine Platform](https://img.shields.io/badge/Astro-FF5D01?style=for-the-badge&logo=astro&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
@@ -9,9 +9,17 @@ A modern, real-time wind turbine monitoring and management platform built with A
 
 ## 🚀 Features
 
+### 🌍 Global Turbine Database
+- **300,000+ turbines** mapped worldwide
+- OpenStreetMap integration for global coverage
+- Clustered map view for performance
+- Manufacturer and model information
+- Real-time statistics by country and region
+
 ### 📊 Real-Time Monitoring
 - Live turbine status and performance metrics
 - Interactive map visualization with Leaflet
+- Clickable turbines with full maintenance details
 - Real-time power generation tracking
 - Alert and notification system
 
@@ -26,6 +34,9 @@ A modern, real-time wind turbine monitoring and management platform built with A
 - Calendar and list views
 - Work order tracking
 - Parts inventory management
+- Complete maintenance history per turbine
+- Oil change tracking and technician logs
+- Interactive maintenance reports
 
 ### 📈 Predictive Analytics
 - AI-powered failure predictions
@@ -35,9 +46,22 @@ A modern, real-time wind turbine monitoring and management platform built with A
 
 ### 🌊 Offshore & Onshore Support
 - Specialized features for both turbine types
-- Sea condition monitoring for offshore
+- Real-time sea condition monitoring
+- Wave height and current tracking
+- Maintenance window predictions based on sea state
 - Vessel operation safety alerts
-- Multi-environment dashboards
+- Visual indicators for offline turbines
+- Priority queue for weather-dependent maintenance
+
+### 👷 Technician Competency Management
+- Individual technician performance tracking
+- Certification monitoring with expiry alerts
+- Skills gap identification
+- Work quality assessment and rework rates
+- Mean time to completion tracking
+- Mentor/trainee status system
+- Secondary issue pattern analysis
+- Role-based assignment validation
 
 ## 🛠️ Tech Stack
 

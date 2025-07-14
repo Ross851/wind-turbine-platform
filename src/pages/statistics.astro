@@ -1,0 +1,15 @@
+---
+import Layout from '../layouts/Layout.astro';
+import GlobalStats from '../components/GlobalStats';
+---
+
+<Layout title="Global Wind Power Statistics">
+  <div class="container mx-auto px-4 py-6">
+    <div class="mb-6">
+      <h1 class="text-3xl font-bold text-gray-900">Global Wind Power Statistics</h1>
+      <p class="text-gray-600 mt-2">Real-time insights into worldwide wind energy production and trends</p>
+    </div>
+    
+    <GlobalStats client:load />
+  </div>
+</Layout>
