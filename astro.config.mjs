@@ -9,13 +9,7 @@ export default defineConfig({
     react()
   ],
   output: 'server',
-  adapter: vercel({
-    functionPerRoute: false,
-    isr: false,
-    webAnalytics: {
-      enabled: true
-    }
-  }),
+  adapter: vercel(),
   vite: {
     ssr: {
       noExternal: ['leaflet']
