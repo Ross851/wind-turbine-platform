@@ -17,17 +17,6 @@ const CoastalWindMap: React.FC = () => {
 
   useEffect(() => {
     if (!mapRef.current || mapInstanceRef.current) return;
-    
-    // Add event listener for opening turbine details from popup
-    const handleOpenDetail = (event: any) => {
-      const turbineId = event.detail;
-      const turbine = turbinesData.find(t => t.id === turbineId);
-      if (turbine) {
-        setSelectedTurbine(turbine);
-      }
-    };
-    
-    window.addEventListener('openTurbineDetail', handleOpenDetail);
 
     // Initialize map with ocean view
     const map = L.map(mapRef.current).setView([55.5, 13.5], 8);
@@ -69,7 +58,7 @@ const CoastalWindMap: React.FC = () => {
           seaConditions = await getSeaConditions(turbine.location.lat, turbine.location.lng);
         }
 
-        const marker = L.marker([turbine.location.lat, turbine.location.lng], { icon })
+        L.marker([turbine.location.lat, turbine.location.lng], { icon })
           .addTo(map)
           .on('click', () => {
             setSelectedTurbine(turbine);
@@ -171,8 +160,19 @@ const CoastalWindMap: React.FC = () => {
             { icon: arrowIcon }
           ).addTo(map);
         }
-      });
+      }
     });
+
+    // Event handler for opening turbine details
+    const handleOpenDetail = (event: Event) => {
+      const customEvent = event as CustomEvent<string>;
+      const turbine = turbinesData.find(t => t.id === customEvent.detail);
+      if (turbine) {
+        setSelectedTurbine(turbine);
+      }
+    };
+
+    window.addEventListener('openTurbineDetail', handleOpenDetail);
 
     return () => {
       window.removeEventListener('openTurbineDetail', handleOpenDetail);
@@ -181,7 +181,7 @@ const CoastalWindMap: React.FC = () => {
         mapInstanceRef.current = null;
       }
     };
-  }, [showCurrents, showWaveHeight, highlightOffline, turbinesData]);
+  }, [showCurrents, highlightOffline, turbinesData]);
 
   return (
     <div className="relative">

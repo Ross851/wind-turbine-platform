@@ -13,7 +13,7 @@ import 'leaflet.markercluster';
 const GlobalTurbineMap: React.FC = () => {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
-  const markersRef = useRef<L.MarkerClusterGroup | null>(null);
+  const markersRef = useRef<any>(null);
   
   const [turbineCount, setTurbineCount] = useState(0);
   const [totalCapacity, setTotalCapacity] = useState(0);
@@ -52,12 +52,12 @@ const GlobalTurbineMap: React.FC = () => {
     tileLayers.satellite.addTo(map);
 
     // Initialize marker cluster group
-    const markers = L.markerClusterGroup({
+    const markers = (L as any).markerClusterGroup({
       chunkedLoading: true,
       spiderfyOnMaxZoom: true,
       showCoverageOnHover: false,
       maxClusterRadius: 50,
-      iconCreateFunction: (cluster) => {
+      iconCreateFunction: (cluster: any) => {
         const childCount = cluster.getChildCount();
         let c = ' marker-cluster-';
         if (childCount < 10) {
@@ -259,7 +259,7 @@ const GlobalTurbineMap: React.FC = () => {
                   .map(([manufacturer, count]) => (
                     <div key={manufacturer} className="flex justify-between">
                       <span>{manufacturer}</span>
-                      <span className="font-medium">{count}</span>
+                      <span className="font-medium">{count as number}</span>
                     </div>
                   ))}
               </div>

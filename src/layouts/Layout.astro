@@ -59,7 +59,10 @@ const { title } = Astro.props;
       function updateTime() {
         const now = new Date();
         const timeString = now.toLocaleTimeString();
-        document.getElementById('lastUpdate').textContent = timeString;
+        const element = document.getElementById('lastUpdate');
+        if (element) {
+          element.textContent = timeString;
+        }
       }
       
       updateTime();
