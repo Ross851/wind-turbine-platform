@@ -7,9 +7,13 @@ export default defineConfig({
     tailwind(),
     react()
   ],
+  output: 'hybrid',
   vite: {
     ssr: {
       noExternal: ['leaflet']
+    },
+    optimizeDeps: {
+      exclude: ['leaflet']
     }
   }
 });
