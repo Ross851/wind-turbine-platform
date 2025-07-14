@@ -11,7 +11,10 @@ export default defineConfig({
   output: 'server',
   adapter: vercel({
     functionPerRoute: false,
-    nodeVersion: '20.x'
+    isr: false,
+    webAnalytics: {
+      enabled: true
+    }
   }),
   vite: {
     ssr: {
