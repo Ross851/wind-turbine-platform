@@ -9,7 +9,10 @@ export default defineConfig({
     react()
   ],
   output: 'server',
-  adapter: vercel(),
+  adapter: vercel({
+    functionPerRoute: false,
+    nodeVersion: '20.x'
+  }),
   vite: {
     ssr: {
       noExternal: ['leaflet']
