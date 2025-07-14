@@ -5,10 +5,5 @@
   "framework": null,
   "public": false,
   "cleanUrls": true,
-  "trailingSlash": false,
-  "env": {
-    "OPENWEATHER_API_KEY": "@openweather_api_key",
-    "STORMGLASS_API_KEY": "@stormglass_api_key",
-    "GOOGLE_MAPS_API_KEY": "@google_maps_api_key"
-  }
+  "trailingSlash": false
 }
