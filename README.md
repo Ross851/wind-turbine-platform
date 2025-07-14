@@ -2,6 +2,8 @@
 
 **Full Circle Wind Services - Multi-Brand O&M Excellence**
 
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Ross851/wind-turbine-platform)
+
 A comprehensive global wind turbine monitoring and management platform built with Astro, React, and TypeScript. Features real-time monitoring of 300,000+ turbines worldwide, predictive maintenance, offshore operations tracking, technician competency management, and advanced analytics.
 
 ![Wind Turbine Platform](https://img.shields.io/badge/Astro-FF5D01?style=for-the-badge&logo=astro&logoColor=white)
