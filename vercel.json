@@ -2,13 +2,8 @@
   "buildCommand": "npm run build",
   "devCommand": "npm run dev",
   "installCommand": "npm install",
-  "framework": null,
-  "public": false,
+  "outputDirectory": ".vercel/output",
+  "framework": "astro",
   "cleanUrls": true,
-  "trailingSlash": false,
-  "functions": {
-    "api/**/*.js": {
-      "runtime": "nodejs20.x"
-    }
-  }
+  "trailingSlash": false
 }
