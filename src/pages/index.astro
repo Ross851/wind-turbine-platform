@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import TurbineMap from '../components/TurbineMap';
+import CoastalWindMap from '../components/CoastalWindMap';
 import TurbineStatus from '../components/TurbineStatus';
 import WeatherWidget from '../components/WeatherWidget';
 import PerformanceChart from '../components/PerformanceChart';
@@ -67,7 +67,7 @@ import AlertsPanel from '../components/AlertsPanel';
         <div class="bg-white rounded-lg shadow p-6">
           <h2 class="text-xl font-bold mb-4">Turbine Locations</h2>
           <div class="h-96">
-            <TurbineMap client:load />
+            <CoastalWindMap client:load />
           </div>
         </div>
         
