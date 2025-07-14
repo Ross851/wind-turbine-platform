@@ -1,0 +1,10 @@
+---
+import Layout from '../layouts/Layout.astro';
+import TechnicianCompetencyTracker from '../components/TechnicianCompetencyTracker';
+---
+
+<Layout title="Technician Management">
+  <div class="container mx-auto px-4 py-6">
+    <TechnicianCompetencyTracker client:load />
+  </div>
+</Layout>

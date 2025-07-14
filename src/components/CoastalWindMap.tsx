@@ -4,6 +4,7 @@ import 'leaflet/dist/leaflet.css';
 import { getTurbines } from '../lib/turbine-service';
 import { getSeaConditions } from '../lib/weather-service';
 import type { Turbine, SeaConditions } from '../types/turbine';
+import TurbineDetailModal from './TurbineDetailModal';
 
 const CoastalWindMap: React.FC = () => {
   const mapRef = useRef<HTMLDivElement>(null);
@@ -11,9 +12,22 @@ const CoastalWindMap: React.FC = () => {
   const [showCurrents, setShowCurrents] = useState(true);
   const [showWaveHeight, setShowWaveHeight] = useState(true);
   const [highlightOffline, setHighlightOffline] = useState(true);
+  const [selectedTurbine, setSelectedTurbine] = useState<Turbine | null>(null);
+  const [turbinesData, setTurbinesData] = useState<Turbine[]>([]);
 
   useEffect(() => {
     if (!mapRef.current || mapInstanceRef.current) return;
+    
+    // Add event listener for opening turbine details from popup
+    const handleOpenDetail = (event: any) => {
+      const turbineId = event.detail;
+      const turbine = turbinesData.find(t => t.id === turbineId);
+      if (turbine) {
+        setSelectedTurbine(turbine);
+      }
+    };
+    
+    window.addEventListener('openTurbineDetail', handleOpenDetail);
 
     // Initialize map with ocean view
     const map = L.map(mapRef.current).setView([55.5, 13.5], 8);
@@ -26,6 +40,7 @@ const CoastalWindMap: React.FC = () => {
 
     // Load turbines and add enhanced markers
     getTurbines().then(async (turbines) => {
+      setTurbinesData(turbines);
       for (const turbine of turbines) {
         // Create custom icon based on status and type
         const iconHtml = `
@@ -56,6 +71,9 @@ const CoastalWindMap: React.FC = () => {
 
         const marker = L.marker([turbine.location.lat, turbine.location.lng], { icon })
           .addTo(map)
+          .on('click', () => {
+            setSelectedTurbine(turbine);
+          })
           .bindPopup(`
             <div class="turbine-popup-enhanced">
               <h3 class="font-bold text-lg">${turbine.name}</h3>
@@ -115,6 +133,11 @@ const CoastalWindMap: React.FC = () => {
                   `}
                 </div>
               ` : ''}
+              
+              <button onclick="window.dispatchEvent(new CustomEvent('openTurbineDetail', { detail: '${turbine.id}' }))" 
+                      class="mt-4 w-full px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-center">
+                View Full Details
+              </button>
             </div>
           `);
 
@@ -152,12 +175,13 @@ const CoastalWindMap: React.FC = () => {
     });
 
     return () => {
+      window.removeEventListener('openTurbineDetail', handleOpenDetail);
       if (mapInstanceRef.current) {
         mapInstanceRef.current.remove();
         mapInstanceRef.current = null;
       }
     };
-  }, [showCurrents, showWaveHeight, highlightOffline]);
+  }, [showCurrents, showWaveHeight, highlightOffline, turbinesData]);
 
   return (
     <div className="relative">
@@ -311,6 +335,15 @@ const CoastalWindMap: React.FC = () => {
           justify-content: center;
         }
       `}</style>
+      
+      {/* Turbine Detail Modal */}
+      {selectedTurbine && (
+        <TurbineDetailModal
+          turbine={selectedTurbine}
+          isOpen={!!selectedTurbine}
+          onClose={() => setSelectedTurbine(null)}
+        />
+      )}
     </div>
   );
 };
