@@ -27,6 +27,10 @@ interface BrandExpertise {
 
 const FullCircleIntegration: React.FC = () => {
   const [activeView, setActiveView] = useState<'dashboard' | 'tickets' | 'expertise' | 'monitoring'>('dashboard');
+  const [showNewTicketForm, setShowNewTicketForm] = useState(false);
+  const [showMaintenanceForm, setShowMaintenanceForm] = useState(false);
+  const [showContactForm, setShowContactForm] = useState(false);
+  const [showReportModal, setShowReportModal] = useState(false);
 
   // Multi-brand expertise data
   const brandExpertise: BrandExpertise[] = [
@@ -238,25 +242,33 @@ const FullCircleIntegration: React.FC = () => {
           <div className="bg-white rounded-lg shadow p-6">
             <h3 className="text-lg font-semibold mb-4">Quick Actions</h3>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <button className="p-4 border-2 border-green-600 text-green-600 rounded-lg hover:bg-green-50 transition">
+              <button 
+                onClick={() => setShowNewTicketForm(true)}
+                className="p-4 border-2 border-green-600 text-green-600 rounded-lg hover:bg-green-50 transition">
                 <svg className="w-8 h-8 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                 </svg>
                 Create Service Ticket
               </button>
-              <button className="p-4 border-2 border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition">
+              <button 
+                onClick={() => setShowMaintenanceForm(true)}
+                className="p-4 border-2 border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition">
                 <svg className="w-8 h-8 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
                 </svg>
                 Schedule Maintenance
               </button>
-              <button className="p-4 border-2 border-orange-600 text-orange-600 rounded-lg hover:bg-orange-50 transition">
+              <button 
+                onClick={() => setShowContactForm(true)}
+                className="p-4 border-2 border-orange-600 text-orange-600 rounded-lg hover:bg-orange-50 transition">
                 <svg className="w-8 h-8 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
                 24/7 Support Contact
               </button>
-              <button className="p-4 border-2 border-purple-600 text-purple-600 rounded-lg hover:bg-purple-50 transition">
+              <button 
+                onClick={() => setShowReportModal(true)}
+                className="p-4 border-2 border-purple-600 text-purple-600 rounded-lg hover:bg-purple-50 transition">
                 <svg className="w-8 h-8 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
@@ -273,7 +285,9 @@ const FullCircleIntegration: React.FC = () => {
           <div className="p-6 border-b">
             <div className="flex justify-between items-center">
               <h3 className="text-lg font-semibold">Active Service Tickets</h3>
-              <button className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+              <button 
+                onClick={() => setShowNewTicketForm(true)}
+                className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
                 + New Ticket
               </button>
             </div>
@@ -414,6 +428,189 @@ const FullCircleIntegration: React.FC = () => {
             </svg>
             <p className="text-gray-600">Advanced monitoring dashboard coming soon</p>
             <p className="text-sm text-gray-500 mt-2">Real-time performance metrics, predictive analytics, and proactive alerts</p>
+          </div>
+        </div>
+      )}
+
+      {/* New Ticket Modal */}
+      {showNewTicketForm && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-lg max-w-2xl w-full p-6">
+            <h2 className="text-2xl font-bold mb-4">Create Service Ticket</h2>
+            <form className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium mb-1">Turbine ID</label>
+                  <input type="text" className="w-full border rounded px-3 py-2" placeholder="WT-001" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">Brand</label>
+                  <select className="w-full border rounded px-3 py-2">
+                    <option>Vestas</option>
+                    <option>GE</option>
+                    <option>Siemens Gamesa</option>
+                    <option>Nordex</option>
+                    <option>Enercon</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">Service Type</label>
+                  <select className="w-full border rounded px-3 py-2">
+                    <option>24/7 Emergency</option>
+                    <option>Scheduled Maintenance</option>
+                    <option>Inspection</option>
+                    <option>Repair</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">Priority</label>
+                  <select className="w-full border rounded px-3 py-2">
+                    <option>Critical</option>
+                    <option>High</option>
+                    <option>Medium</option>
+                    <option>Low</option>
+                  </select>
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Description</label>
+                <textarea className="w-full border rounded px-3 py-2" rows={4} placeholder="Describe the issue..."></textarea>
+              </div>
+              <div className="flex justify-end gap-3">
+                <button type="button" onClick={() => setShowNewTicketForm(false)} className="px-4 py-2 border rounded hover:bg-gray-50">Cancel</button>
+                <button type="submit" className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Create Ticket</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Schedule Maintenance Modal */}
+      {showMaintenanceForm && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-lg max-w-2xl w-full p-6">
+            <h2 className="text-2xl font-bold mb-4">Schedule Maintenance</h2>
+            <form className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium mb-1">Turbine(s)</label>
+                  <input type="text" className="w-full border rounded px-3 py-2" placeholder="Select turbines..." />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">Maintenance Type</label>
+                  <select className="w-full border rounded px-3 py-2">
+                    <option>500hr Service</option>
+                    <option>1000hr Service</option>
+                    <option>2000hr Service</option>
+                    <option>Annual Inspection</option>
+                    <option>Blade Inspection</option>
+                    <option>Gearbox Service</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">Preferred Date</label>
+                  <input type="date" className="w-full border rounded px-3 py-2" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">Duration (Days)</label>
+                  <input type="number" className="w-full border rounded px-3 py-2" placeholder="2" />
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Special Requirements</label>
+                <textarea className="w-full border rounded px-3 py-2" rows={3} placeholder="Any special tools, parts, or access requirements..."></textarea>
+              </div>
+              <div className="flex justify-end gap-3">
+                <button type="button" onClick={() => setShowMaintenanceForm(false)} className="px-4 py-2 border rounded hover:bg-gray-50">Cancel</button>
+                <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Schedule</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* 24/7 Support Contact Modal */}
+      {showContactForm && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-lg max-w-lg w-full p-6">
+            <h2 className="text-2xl font-bold mb-4">24/7 Emergency Support</h2>
+            <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 mb-4">
+              <p className="text-orange-800 font-semibold">Emergency Hotline: +1-800-WINDFIX</p>
+              <p className="text-orange-700 text-sm">Available 24/7/365 for critical issues</p>
+            </div>
+            <form className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium mb-1">Your Name</label>
+                <input type="text" className="w-full border rounded px-3 py-2" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Contact Number</label>
+                <input type="tel" className="w-full border rounded px-3 py-2" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Turbine Location</label>
+                <input type="text" className="w-full border rounded px-3 py-2" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Issue Description</label>
+                <textarea className="w-full border rounded px-3 py-2" rows={3}></textarea>
+              </div>
+              <div className="flex justify-end gap-3">
+                <button type="button" onClick={() => setShowContactForm(false)} className="px-4 py-2 border rounded hover:bg-gray-50">Cancel</button>
+                <button type="submit" className="px-4 py-2 bg-orange-600 text-white rounded hover:bg-orange-700">Request Callback</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Performance Report Modal */}
+      {showReportModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-lg max-w-4xl w-full p-6 max-h-[90vh] overflow-y-auto">
+            <h2 className="text-2xl font-bold mb-4">Fleet Performance Report</h2>
+            <div className="space-y-6">
+              <div className="grid grid-cols-3 gap-4">
+                <div className="bg-green-50 rounded-lg p-4">
+                  <p className="text-sm text-gray-600">Availability</p>
+                  <p className="text-2xl font-bold text-green-600">97.8%</p>
+                  <p className="text-xs text-gray-500">↑ 2.3% from last month</p>
+                </div>
+                <div className="bg-blue-50 rounded-lg p-4">
+                  <p className="text-sm text-gray-600">Performance</p>
+                  <p className="text-2xl font-bold text-blue-600">94.5%</p>
+                  <p className="text-xs text-gray-500">↑ 1.2% from last month</p>
+                </div>
+                <div className="bg-purple-50 rounded-lg p-4">
+                  <p className="text-sm text-gray-600">Total Energy</p>
+                  <p className="text-2xl font-bold text-purple-600">42.5 GWh</p>
+                  <p className="text-xs text-gray-500">This month</p>
+                </div>
+              </div>
+              
+              <div className="border-t pt-4">
+                <h3 className="font-semibold mb-3">Key Achievements</h3>
+                <ul className="space-y-2 text-sm">
+                  <li className="flex items-start gap-2">
+                    <span className="text-green-500">✓</span>
+                    <span>Zero safety incidents for 180 consecutive days</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-green-500">✓</span>
+                    <span>Reduced average repair time by 23% through predictive maintenance</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-green-500">✓</span>
+                    <span>Successfully serviced 127 turbines across 5 different brands</span>
+                  </li>
+                </ul>
+              </div>
+              
+              <div className="flex justify-end gap-3">
+                <button onClick={() => setShowReportModal(false)} className="px-4 py-2 border rounded hover:bg-gray-50">Close</button>
+                <button className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700">Download Full Report</button>
+              </div>
+            </div>
           </div>
         </div>
       )}
