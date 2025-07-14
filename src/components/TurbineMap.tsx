@@ -4,6 +4,14 @@ import 'leaflet/dist/leaflet.css';
 import { getTurbines } from '../lib/turbine-service';
 import type { Turbine } from '../types/turbine';
 
+// Fix for default markers
+delete (L.Icon.Default.prototype as any)._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+  iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+  shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+});
+
 const TurbineMap: React.FC = () => {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
@@ -11,9 +19,10 @@ const TurbineMap: React.FC = () => {
   useEffect(() => {
     if (!mapRef.current || mapInstanceRef.current) return;
 
-    // Initialize map
-    const map = L.map(mapRef.current).setView([55.6761, 12.5683], 7);
-    mapInstanceRef.current = map;
+    try {
+      // Initialize map
+      const map = L.map(mapRef.current).setView([55.6761, 12.5683], 7);
+      mapInstanceRef.current = map;
 
     // Add tile layer
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -51,6 +60,10 @@ const TurbineMap: React.FC = () => {
           `);
       });
     });
+
+    } catch (error) {
+      console.error('Error initializing turbine map:', error);
+    }
 
     return () => {
       if (mapInstanceRef.current) {

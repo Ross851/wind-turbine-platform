@@ -6,6 +6,14 @@ import { getSeaConditions } from '../lib/weather-service';
 import type { Turbine, SeaConditions } from '../types/turbine';
 import TurbineDetailModal from './TurbineDetailModal';
 
+// Fix for default markers
+delete (L.Icon.Default.prototype as any)._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+  iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+  shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+});
+
 const CoastalWindMap: React.FC = () => {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
@@ -18,9 +26,10 @@ const CoastalWindMap: React.FC = () => {
   useEffect(() => {
     if (!mapRef.current || mapInstanceRef.current) return;
 
-    // Initialize map with ocean view
-    const map = L.map(mapRef.current).setView([55.5, 13.5], 8);
-    mapInstanceRef.current = map;
+    try {
+      // Initialize map with ocean view
+      const map = L.map(mapRef.current).setView([55.5, 13.5], 8);
+      mapInstanceRef.current = map;
 
     // Add ocean-friendly tile layer
     L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}', {
@@ -173,6 +182,10 @@ const CoastalWindMap: React.FC = () => {
     };
 
     window.addEventListener('openTurbineDetail', handleOpenDetail);
+
+    } catch (error) {
+      console.error('Error initializing map:', error);
+    }
 
     return () => {
       window.removeEventListener('openTurbineDetail', handleOpenDetail);

@@ -10,6 +10,14 @@ import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import 'leaflet.markercluster';
 
+// Fix for default markers
+delete (L.Icon.Default.prototype as any)._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+  iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+  shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+});
+
 const GlobalTurbineMap: React.FC = () => {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
@@ -26,15 +34,16 @@ const GlobalTurbineMap: React.FC = () => {
   useEffect(() => {
     if (!mapRef.current || mapInstanceRef.current) return;
 
-    // Initialize map with global view
-    const map = L.map(mapRef.current, {
-      center: [54.5, 15.0], // Center on Northern Europe
-      zoom: 5,
-      maxZoom: 18,
-      minZoom: 3
-    });
-    
-    mapInstanceRef.current = map;
+    try {
+      // Initialize map with global view
+      const map = L.map(mapRef.current, {
+        center: [54.5, 15.0], // Center on Northern Europe
+        zoom: 5,
+        maxZoom: 18,
+        minZoom: 3
+      });
+      
+      mapInstanceRef.current = map;
 
     // Add tile layers
     const tileLayers = {
@@ -197,12 +206,16 @@ const GlobalTurbineMap: React.FC = () => {
 
     window.addEventListener('viewTurbineDetails', handleViewDetails as any);
 
+    } catch (error) {
+      console.error('Error initializing global map:', error);
+    }
+
     return () => {
       window.removeEventListener('changeMapView', handleViewModeChange as any);
       window.removeEventListener('viewTurbineDetails', handleViewDetails as any);
-      map.off('moveend', loadTurbinesInView);
-      map.off('zoomend', loadTurbinesInView);
       if (mapInstanceRef.current) {
+        mapInstanceRef.current.off('moveend', loadTurbinesInView);
+        mapInstanceRef.current.off('zoomend', loadTurbinesInView);
         mapInstanceRef.current.remove();
         mapInstanceRef.current = null;
       }
